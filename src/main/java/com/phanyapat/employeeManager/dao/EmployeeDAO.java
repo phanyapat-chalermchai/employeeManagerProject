@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface EmployeeDAO {
 
-    void save(Employee theStudent);
-
     Employee findById(Integer id);
 
     List<Employee> findAll();
 
     List<Employee> findByLastName(String lastName);
 
-    void update(Employee student);
+    Employee save(Employee employee);
 
     void delete(Integer id);
 

@@ -2,10 +2,8 @@ package com.phanyapat.employeeManager.rest;
 
 import com.phanyapat.employeeManager.dao.EmployeeDAO;
 import com.phanyapat.employeeManager.entity.Employee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.phanyapat.employeeManager.service.EmployeeService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,21 +11,45 @@ import java.util.List;
 @RequestMapping("/api/employee")
 public class EmployeeRestController {
 
-    private final EmployeeDAO employeeDAO;
+    private final EmployeeService employeeService;
 
-    public EmployeeRestController(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeRestController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
+
 
     @GetMapping("getAll")
     public List<Employee> findAll(){
-        return employeeDAO.findAll();
+        return employeeService.findAll();
     }
 
     @GetMapping("getById/{id}")
     public Employee getById(@PathVariable int id){
 
-        return employeeDAO.findById(id);
+        return employeeService.findById(id);
+    }
+
+    @PostMapping
+    public Employee create(@RequestBody Employee employee){
+        return employeeService.save(employee);
+    }
+
+    @PutMapping
+    public Employee update(@RequestBody Employee employee){
+        return employeeService.save(employee);
+    }
+
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable int id){
+
+        Employee employee = employeeService.findById(id);
+
+        if(employee == null){
+            throw new RuntimeException("Employee id not found : " + id);
+        }
+
+        employeeService.delete(id);
+        return "Deleted emp id : " + id;
     }
 
 

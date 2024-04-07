@@ -21,14 +21,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         this.entityManager = entityManager;
     }
 
-
-    // implement save method
-    @Override
-    @Transactional
-    public void save(Employee theEmployee) {
-        entityManager.persist(theEmployee);
-    }
-
     @Override
     public Employee findById(Integer id) {
         return entityManager.find(Employee.class, id);
@@ -55,14 +47,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return theQuery.getResultList();
     }
 
+
     @Override
-    @Transactional
-    public void update(Employee Employee) {
-        entityManager.merge(Employee);
+    public Employee save(Employee employee) {
+//        entityManager.persist(employee);
+        return entityManager.merge(employee);
     }
 
     @Override
-    @Transactional
     public void delete(Integer id) {
 //        Employee Employee = entityManager.find(Employee.class, id);
         Employee Employee = findById(id);
@@ -71,7 +63,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    @Transactional
     public int deleteAll() {
         return entityManager.createQuery("DELETE FROM Employee").executeUpdate();
     }
